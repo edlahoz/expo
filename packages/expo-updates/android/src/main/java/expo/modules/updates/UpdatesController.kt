@@ -163,7 +163,7 @@ class UpdatesController {
     /**
      * Binds the [AppContext] and [EventEmitter] instance from [UpdatesModule].
      */
-    internal fun bindAppContext(appContext: WeakReference<AppContext>, eventEmitter: EventEmitter) {
+    internal fun bindAppContext(appContext: WeakReference<AppContext>, eventEmitter: EventEmitter?) {
       singletonInstance?.let {
         it.appContext = appContext
         it.eventEmitter = eventEmitter
