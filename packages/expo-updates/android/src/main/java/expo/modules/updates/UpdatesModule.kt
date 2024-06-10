@@ -75,7 +75,9 @@ class UpdatesModule : Module() {
 
     OnCreate {
       UpdatesController.bindAppContext(
-        WeakReference(appContext), appContext.eventEmitter(this@UpdatesModule))
+        WeakReference(appContext),
+        appContext.eventEmitter(this@UpdatesModule)
+      )
     }
 
     OnStartObserving {
