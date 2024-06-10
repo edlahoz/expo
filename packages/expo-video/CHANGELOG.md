@@ -12,6 +12,7 @@
 ### 🐛 Bug fixes
 
 - [Android] Fix wrong content fit "fill" and "cover". ([#29364](https://github.com/expo/expo/pull/29364) by [@RRaideRR](https://github.com/RRaideRR))
+- Fix errors on setting a null video source. ([#29613](https://github.com/expo/expo/pull/29613) by [@behenate](https://github.com/behenate))
 
 ### 💡 Others
 

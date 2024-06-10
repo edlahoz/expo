@@ -138,7 +138,7 @@ class VideoModule : Module() {
     }
 
     Class(VideoPlayer::class) {
-      Constructor { source: VideoSource ->
+      Constructor { source: VideoSource? ->
         VideoPlayer(activity.applicationContext, appContext, source)
       }
 
@@ -263,18 +263,27 @@ class VideoModule : Module() {
         }
       }
 
-      Function("replace") { ref: VideoPlayer, source: Either<String, VideoSource> ->
-        val videoSource = if (source.`is`(VideoSource::class)) {
-          source.get(VideoSource::class)
-        } else {
-          VideoSource(source.get(String::class))
+      Function("replace") { ref: VideoPlayer, source: Either<String, VideoSource>? ->
+        val videoSource = source?.let {
+          if (it.`is`(VideoSource::class)) {
+            it.get(VideoSource::class)
+          } else {
+            VideoSource(it.get(String::class))
+          }
         }
-        val mediaItem = videoSource.toMediaItem()
-        VideoManager.registerVideoSourceToMediaItem(mediaItem, videoSource)
+
+        val mediaItem = videoSource?.toMediaItem()?.also {
+          VideoManager.registerVideoSourceToMediaItem(it, videoSource)
+        }
 
         appContext.mainQueue.launch {
           ref.videoSource = videoSource
-          ref.player.setMediaItem(mediaItem)
+          mediaItem?.let {
+            ref.player.setMediaItem(mediaItem)
+          } ?: run {
+            ref.player.clearMediaItems()
+            ref.player.clearVideoSurface()
+          }
         }
       }
 

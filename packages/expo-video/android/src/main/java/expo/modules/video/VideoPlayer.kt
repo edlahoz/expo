@@ -243,7 +243,7 @@ class VideoPlayer(context: Context, appContext: AppContext, source: VideoSource?
       player.setMediaItem(mediaItem)
       player.prepare()
     } ?: run {
-      player.removeMediaItem(0)
+      player.clearMediaItems()
       player.prepare()
     }
   }
